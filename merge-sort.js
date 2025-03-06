@@ -5,31 +5,42 @@ function mergeSort(arr) {
     const middle = Math.floor(arr.length / 2);
     const left = arr.slice(0, middle);
     const right = arr.slice(middle);
-    return merge(left, right);
 
-    function merge(left, right) {
-      if (left.length > 1) {
-        return mergeSort(left);
-      } else if (right.length > 1) {
-        return mergeSort(right);
-      } else {
-        return compare(left, right);
-      }
-      function compare(left, right) {
-        const sortedArray = [];
-        if (left[0] > right[0]) {
-          sortedArray.push(right[0]);
-          sortedArray.push(left[0]);
-        } else {
-          sortedArray.push(left[0]);
-          sortedArray.push(right[0]);
-        }
-        return sortedArray;
-      }
-    }
+    const sortedLeft = mergeSort(left);
+    const sortedRight = mergeSort(right);
+
+    return merge(sortedLeft, sortedRight);
   }
 }
 
-const myArray = mergeSort([6, 4, 3, 6, 8]);
+function merge(left, right) {
+  let result = [];
+  let i = 0;
+  let j = 0;
 
-console.log(myArray);
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) {
+      result.push(left[i]);
+      i++;
+    } else {
+      result.push(right[j]);
+      j++;
+    }
+  }
+
+  while (i < left.length) {
+    result.push(left[i]);
+    i++;
+  }
+
+  while (j < right.length) {
+    result.push(right[j]);
+    j++;
+  }
+
+  return result;
+}
+
+mergeSort([0, 4, 8, 2, 5, 1, 8]).forEach((e) => {
+  console.log(e);
+});
